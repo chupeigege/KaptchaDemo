@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证码</title>
+    <script src="/js/jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            $("#login").click(function () {
+                $.ajax({
+                    url:"/login",
+                    type:'post',
+                    data: {"code":$("#code").val()},
+                    dataType:"text",
+                    success:function(res){
+                        if(res=="验证码正确"){
+                            alert("成功绑定")
+                        }else {
+                            $("#code").val("");
+                            $('.validateCode').attr('src','/getCaptcha?'+new Date().getTime());
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<form id="loginForm" action="" >
+        <input type="tel" name="code" id="code" placeholder="验证码" maxlength="6" />
+        <i class="zy-code"><img src="/getCaptcha" alt="" onclick="$('.validateCodeRefresh').click();" class="validateCode"/></i>
+        <span style="display:none" class="newOne validateCodeRefresh" onclick="$('.validateCode').attr('src','/getCaptcha?'+new Date().getTime());">换一个</span>
+        <button type="button" id="login">登&nbsp;&nbsp;录1</button>
+</form>
+</body>
+</html>
